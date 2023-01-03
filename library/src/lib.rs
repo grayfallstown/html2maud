@@ -79,8 +79,6 @@ pub fn html2maud(html: &str) -> String {
                         }
                     }
                 }
-
-     
             }
         }
     }
@@ -90,7 +88,6 @@ pub fn html2maud(html: &str) -> String {
     }
     
 
-    //println!("{}", maud_template);
     maud_template
 
 }

@@ -2,6 +2,11 @@
 name = "html2maud-bin"
 version = "0.1.0"
 edition = "2021"
+readme = "../Readme.md"
+repository = "https://github.com/grayfallstown/html2maud"
+license = "MIT OR Apache-2.0"
+keywords = ["maud", "html", "template"]
+categories = ["command-line-utilities", "development-tools"]
 
 [[bin]]
 name = "html2maud"
