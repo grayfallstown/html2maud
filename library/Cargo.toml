@@ -1,0 +1,9 @@
+[package]
+name = "html2maud"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+
+[dependencies]
+tl = "0.7.7"
