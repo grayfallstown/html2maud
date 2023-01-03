@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 readme = "../Readme.md"
 repository = "https://github.com/grayfallstown/html2maud"
+description = "html2maud is a library / cli to convert html to maud template code"
 license = "MIT OR Apache-2.0"
 keywords = ["maud", "html", "template"]
 categories = ["command-line-utilities", "development-tools"]
