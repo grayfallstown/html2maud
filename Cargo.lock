@@ -95,11 +95,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "html2maud"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "24f1d6cec1e02ec6b585f8870f0c607b95d8e3851905177cebdfc0a3d45e2359"
+dependencies = [
+ "tl",
+]
+
+[[package]]
 name = "html2maud-bin"
 version = "0.1.0"
 dependencies = [
  "clap",
- "html2maud",
+ "html2maud 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
