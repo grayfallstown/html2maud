@@ -10,7 +10,7 @@ pub fn html2maud(html: &str) -> String {
     let parser = dom.parser();
 
     fn spaces(count: usize) -> String {
-        return "\t".repeat(count).as_str().to_owned();
+        return "   ".repeat(count).as_str().to_owned();
     }
 
     fn handle_tag(tag: &HTMLTag, parser: &Parser, maud_template: &mut String, indent: usize) {
@@ -49,7 +49,7 @@ pub fn html2maud(html: &str) -> String {
                 write!(maud_template, " {}", key).unwrap();
                 match value_opt {
                     None => {},
-                    Some(value) => write!(maud_template, "\"{}\"", value).unwrap(),
+                    Some(value) => write!(maud_template, "=\"{}\"", value).unwrap(),
                 }    
             }
         }
@@ -83,9 +83,11 @@ pub fn html2maud(html: &str) -> String {
         }
     }
 
+    write!(maud_template, "html! {{\n").unwrap();
     for node_handle in dom.children() {
-        handle_node(node_handle.get(parser), parser, &mut maud_template, 0);
+        handle_node(node_handle.get(parser), parser, &mut maud_template, 1);
     }
+    write!(maud_template, "\n}}\n").unwrap();
     
 
     maud_template

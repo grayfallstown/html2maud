@@ -89,9 +89,7 @@ dependencies = [
 
 [[package]]
 name = "html2maud"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "24f1d6cec1e02ec6b585f8870f0c607b95d8e3851905177cebdfc0a3d45e2359"
+version = "0.1.1"
 dependencies = [
  "tl",
 ]
@@ -99,16 +97,18 @@ dependencies = [
 [[package]]
 name = "html2maud"
 version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2258798bcdf207211ed17108ab4f7d51239bd8088c7695284bd510c29a051123"
 dependencies = [
  "tl",
 ]
 
 [[package]]
 name = "html2maud-bin"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "clap",
- "html2maud 0.1.0",
+ "html2maud 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
