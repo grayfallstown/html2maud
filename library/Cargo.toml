@@ -1,6 +1,6 @@
 [package]
 name = "html2maud"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 readme = "../Readme.md"
 description = "html2maud is a library / cli to convert html to maud template code"

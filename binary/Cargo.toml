@@ -1,6 +1,6 @@
 [package]
 name = "html2maud-bin"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 readme = "../Readme.md"
 repository = "https://github.com/grayfallstown/html2maud"
@@ -14,5 +14,5 @@ name = "html2maud"
 path = "src/main.rs"
 
 [dependencies]
-html2maud = { version = "0.1.0" }
+html2maud = { version = "0.1.1" }
 clap = { version = "4.0.32", features = ["derive"] }
