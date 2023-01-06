@@ -2,6 +2,9 @@ use html2maud::*;
 use clap::{Parser};
 use std::io::{self, BufRead};
 use std::fs;
+mod paro_gui;
+use crate::paro_gui::start_gui;
+
 
 #[derive(Parser, Debug)]
 struct Args {
@@ -40,7 +43,8 @@ fn run_cli(args: &Args) {
 
 fn run_gui() {
     println!("neither --stdin nor --in specified. Starting gui. If you wanted to use the cli, use html2maaud --help");
-    panic!("gui not yet implemented");
+    // panic!("gui not yet implemented");
+    start_gui();
 }
 
 fn main() {

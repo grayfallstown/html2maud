@@ -8,6 +8,7 @@ description = "html2maud is a library / cli to convert html to maud template cod
 license = "MIT OR Apache-2.0"
 keywords = ["maud", "html", "template"]
 categories = ["command-line-utilities", "development-tools"]
+build = "src/build.rs"
 
 [[bin]]
 name = "html2maud"
@@ -17,3 +18,26 @@ path = "src/main.rs"
 html2maud = { version = "0.1.2" }
 # html2maud = { path = "../library" }
 clap = { version = "4.0.32", features = ["derive"] }
+# paro-rs = { path = "../../paro-rs" }
+paro-rs = "0.0.6"
+uuid = { version = "1.2.2", features= ["v4", "fast-rng"] }
+maud = "0.24.0"
+tauri = { version = "1.2.3", features = [] }
+tokio = { version = "1.11", features = ["full"] }
+tokio-tungstenite = "0.18.0"
+tungstenite = "0.18.0"
+futures-util = "0.3"
+chrono = "0.4.23"
+clipboard = "0.5.0"
+
+[build-dependencies]
+tauri-build = { version = "1.2.1", features = [] }
+
+[features]
+# by default Tauri runs in production mode
+# when `tauri dev` runs it is executed with `cargo run --no-default-features` if `devPath` is an URL
+default = ["custom-protocol"]
+# this feature is used used for production builds where `devPath` points to the filesystem
+# DO NOT remove this
+custom-protocol = ["tauri/custom-protocol"]
+

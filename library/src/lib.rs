@@ -10,7 +10,7 @@ pub fn html2maud(html: &str) -> String {
     let parser = dom.parser();
 
     fn spaces(count: usize) -> String {
-        return "   ".repeat(count).as_str().to_owned();
+        return "    ".repeat(count).as_str().to_owned();
     }
 
     fn handle_tag(tag: &HTMLTag, parser: &Parser, maud_template: &mut String, indent: usize) {
