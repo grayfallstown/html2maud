@@ -7,16 +7,16 @@
     "withGlobalTauri": true
   },
     "package": {
-      "productName": "Hello World",
-      "version": "0.1.0"
+      "productName": "html2maud",
+      "version": "0.1.4"
     },
     "tauri": {
       "bundle": {
         "active": true,
         "targets": "all",
-        "identifier": "com.grayfallstown.paro.minimalcounter",
+        "identifier": "com.grayfallstown.html2maud",
         "icon": [ "icons/icon.ico" ],
-        "resources": [],
+        "resources": ["./static/"],
         "externalBin": [],
         "copyright": "",
         "category": "DeveloperTool",

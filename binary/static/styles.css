@@ -12,3 +12,7 @@ html, body, #htmlTextarea {
 #htmlTextarea {
     height: 90vh;
 }
+
+.col {
+    max-width: 50vw;
+}
