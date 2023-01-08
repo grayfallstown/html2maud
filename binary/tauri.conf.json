@@ -2,13 +2,13 @@
   "build": {
     "beforeDevCommand": "",
     "beforeBuildCommand": "",
-    "devPath": "./static",
-    "distDir": "./static",
+    "devPath": "./public",
+    "distDir": "./public",
     "withGlobalTauri": true
   },
     "package": {
       "productName": "html2maud",
-      "version": "0.1.4"
+      "version": "0.1.6"
     },
     "tauri": {
       "bundle": {
@@ -16,7 +16,7 @@
         "targets": "all",
         "identifier": "com.grayfallstown.html2maud",
         "icon": [ "icons/icon.ico" ],
-        "resources": ["./static/"],
+        "resources": ["./public/"],
         "externalBin": [],
         "copyright": "",
         "category": "DeveloperTool",
