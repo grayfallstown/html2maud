@@ -79,9 +79,13 @@ async fn start_server() {
     let try_socket = TcpListener::bind(&addr).await;
     let listener = try_socket.expect("Failed to bind");
 
+    let html = r#"<h1>Welcome to html2maud</h1>
+    <p>Paste or type <strong>html</strong> into the left side</p>
+    <br/>
+    <p>and the <strong>maud template</strong> will be shown on the right side</p>"#.to_owned();
     let paro_app = Arc::new(Mutex::new(ParoApp::<ApplicationState>::new(ApplicationState {
-        html: "<p>Paste or type html into the left side</p>".to_owned(),
-        maud: html2maud::html2maud("<p>Paste or type html into the left side</p>"),
+        maud: html2maud::html2maud(&html),
+        html: html,
     })));
 
     while let Ok((stream, _)) = listener.accept().await {

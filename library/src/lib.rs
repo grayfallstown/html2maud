@@ -2,6 +2,12 @@
 use std::fmt::Write;
 use tl::*;
 
+fn remove_empty_lines(s: &str) -> String {
+    let lines = s.lines();
+    let non_empty_lines: Vec<&str> = lines.filter(|line| line.trim().len() > 0).collect();
+    non_empty_lines.join("\n")
+}
+
 pub fn html2maud(html: &str) -> String {
     let mut maud_template = String::new();
 
@@ -57,11 +63,16 @@ pub fn html2maud(html: &str) -> String {
         write!(maud_template, " {{\n").unwrap();
         let children = tag.children();
         let nodes = children.top().as_slice();
+        let mut first_node = true;
         for child_node in nodes {
+            if first_node {
+                first_node = false;
+            } else {
+                write!(maud_template, "\n").unwrap();
+            }
             handle_node(child_node.get(parser), parser, maud_template, indent + 1);
-            write!(maud_template, "\n").unwrap();
         }
-        write!(maud_template, "{}}}", spaces(indent)).unwrap();
+        write!(maud_template, "{}}}\n", spaces(indent)).unwrap();
     }
 
     fn handle_node(node_opt: Option<&Node>, parser: &Parser, maud_template: &mut String, indent: usize) {
@@ -75,7 +86,7 @@ pub fn html2maud(html: &str) -> String {
                         let text = raw.as_utf8_str();
                         let trimmed_text = text.trim();
                         if !trimmed_text.is_empty() {
-                            write!(maud_template, "{}\"{}\"", spaces(indent), trimmed_text.replace("\"","\\\"")).unwrap();
+                            write!(maud_template, "{}\"{}\"\n", spaces(indent), trimmed_text.replace("\"","\\\"")).unwrap();
                         }
                     }
                 }
@@ -89,7 +100,6 @@ pub fn html2maud(html: &str) -> String {
     }
     write!(maud_template, "\n}}\n").unwrap();
     
-
-    maud_template
+    remove_empty_lines(&maud_template)
 
 }

@@ -22,7 +22,8 @@ Options:
 
 # GUI
 
-Yet to be implemented.
+While a gui exists, there is currently a bug where the gui does not show up when installed via `cargo install`.
+If you use `cargo run` just pass no arguments to html2maud and a [tauri](https:://tauri.app) + [pâro](https://github.com/grayfallstown/paro-rs) will show up.
 
 # Library Usage
 

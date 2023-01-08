@@ -15,7 +15,7 @@ name = "html2maud"
 path = "src/main.rs"
 
 [dependencies]
-html2maud = { version = "0.1.2" }
+html2maud = { version = "0.1.7" }
 # html2maud = { path = "../library" }
 clap = { version = "4.0.32", features = ["derive"] }
 # paro-rs = { path = "../../paro-rs" }
