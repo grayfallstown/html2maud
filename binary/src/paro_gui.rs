@@ -35,26 +35,26 @@ fn render(paro_app: &mut Arc<Mutex<ParoApp<ApplicationState>>>) -> String {
                         label."form-label" for="htmlTextarea" {
                         "HTML input"
                         }
-                        textarea #htmlTextarea."form-control" autofocus oninput=({
+                        textarea #htmlTextarea."form-control" autofocus oninput=(
                             event!(paro_app, (move |state: &mut ApplicationState, value| {
                                 println!("value: {}", value);
                                 state.html = value;
                                 state.maud = html2maud(&state.html);    
                             }))
-                        }) {
+                        ) {
                             (paro_app.lock().unwrap().state.html)
                         }
                     }
                 }
      
                 div.col {
-                   button.btn."btn-primary" type="button" onclick=({
+                   button.btn."btn-primary" type="button" onclick=(
                         event!(paro_app, (move |state: &mut ApplicationState, _| {
                             let mut clipboard_context: ClipboardContext = ClipboardProvider::new().unwrap();
                             clipboard_context.set_contents(state.maud.clone())
                                 .expect("could not write to clipboard");
                         }))
-                    }) {
+                    ) {
                         "Copy to Clipboard"
                     }
                     pre {
