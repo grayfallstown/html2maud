@@ -1427,29 +1427,29 @@ dependencies = [
 
 [[package]]
 name = "html2maud"
-version = "0.1.7"
+version = "0.1.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "af6a4f7c459be49c3ee2dd52a27465a24be20f61c0977763268d2105ee294b61"
 dependencies = [
  "tl",
 ]
 
 [[package]]
 name = "html2maud"
-version = "0.1.7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d232194af279192591a988fa6cc9fe73a10d8de15b92d9a88c29eacec6edacbc"
+version = "0.1.9"
 dependencies = [
  "tl",
 ]
 
 [[package]]
 name = "html2maud-bin"
-version = "0.1.7"
+version = "0.1.9"
 dependencies = [
  "chrono",
  "clap",
  "clipboard",
  "futures-util",
- "html2maud 0.1.7 (registry+https://github.com/rust-lang/crates.io-index)",
+ "html2maud 0.1.8",
  "maud",
  "paro-rs",
  "rocket",
