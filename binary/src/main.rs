@@ -1,3 +1,7 @@
+#![feature(decl_macro)]
+#[macro_use]
+extern crate rocket;
+
 use html2maud::*;
 use clap::{Parser};
 use std::io::{self, BufRead};

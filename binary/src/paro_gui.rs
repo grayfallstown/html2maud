@@ -15,10 +15,21 @@ use tungstenite::{Result, Message};
 
 use clipboard::{ClipboardProvider, ClipboardContext};
 use maud::{html};
+use rocket::response::content::*;
+use rocket::response::*;
+use std::io::Cursor;
 
 use paro_rs::{ParoApp, event};
 
 use html2maud::html2maud;
+
+use rust_embed::*;
+
+#[derive(RustEmbed)]
+#[folder = "./public/"]
+struct Asset;
+
+
 
 pub struct ApplicationState {
     pub html: String,
@@ -66,7 +77,6 @@ fn render(paro_app: &mut Arc<Mutex<ParoApp<ApplicationState>>>) -> String {
     };
 
     let html = markup.into_string();
-    println!("maud generated html:\n{}", html);
     return html;
 }
 
@@ -138,9 +148,52 @@ async fn handle_connection(paro_app: Arc<Mutex<ParoApp<ApplicationState>>>, _pee
 }
 
 
+#[rocket::get("/hello")]
+fn world() -> &'static str {
+  "Hello, world!"
+}
+
+fn asset_as_str(path: &str) -> String {
+    let embed_file = Asset::get(path)
+        .expect(&format!("{} not found in assets", path));
+    let as_string = String::from_utf8(embed_file.data.into_owned())
+        .expect(&format!("contents of {} should be UTF-8", path));
+    as_string
+}
+
+#[rocket::get("/")]
+fn index() -> RawHtml<String> {
+    RawHtml(asset_as_str("index.html"))
+}
+
+#[rocket::get("/<path>")]
+fn html_asset(path: &str) -> RawHtml<String> {
+    RawHtml(asset_as_str(&path))
+}
+
+#[rocket::get("/css/<path>")]
+fn css_asset(path: &str) -> RawCss<String> {
+    let path_str = format!("{}{}", "css/", path);
+    RawCss(asset_as_str(&path_str))
+}
+
+#[rocket::get("/js/<path>")]
+fn js_asset(path: &str) -> RawJavaScript<String> {
+    let path_str = format!("{}{}", "js/", path);
+    RawJavaScript(asset_as_str(&path_str))
+}
+
+
+
 pub(crate) fn start_gui() {
     tauri::async_runtime::spawn(start_server());
     tauri::Builder::default()
+        .setup(|app| {
+            tauri::async_runtime::spawn(
+                rocket::build().mount("/", rocket::routes![world, index, html_asset, css_asset, js_asset]).launch()
+            );
+            Ok(())
+        })
         // .plugin(TauriWebsocket::default()) // this was added
         .run(tauri::generate_context!())
     .expect("error while running tauri application");

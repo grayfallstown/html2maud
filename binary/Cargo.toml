@@ -11,7 +11,7 @@ categories = ["command-line-utilities", "development-tools"]
 build = "src/build.rs"
 
 [[bin]]
-name = "html2maud"
+name = "html2maud-bin"
 path = "src/main.rs"
 
 [dependencies]
@@ -29,6 +29,8 @@ tungstenite = "0.18.0"
 futures-util = "0.3"
 chrono = "0.4.23"
 clipboard = "0.5.0"
+rocket = "0.5.0-rc.2"
+rust-embed="6.4.2"
 
 [build-dependencies]
 tauri-build = { version = "1.2.1", features = [] }
