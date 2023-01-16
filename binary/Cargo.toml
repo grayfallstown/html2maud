@@ -9,7 +9,7 @@ license = "MIT OR Apache-2.0"
 keywords = ["maud", "html", "template"]
 categories = ["command-line-utilities", "development-tools"]
 build = "src/build.rs"
-include = ["/public"]
+include = ["/public", "/src", "tauri.conf.json", "Cargo.toml", "/icons"]
 
 [[bin]]
 name = "html2maud-bin"
