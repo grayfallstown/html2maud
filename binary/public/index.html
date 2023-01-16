@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>html2maud pâro GUI</title>
+    <link data-trunk rel="js" href="js/paro.js" />
+    <link data-trunk rel="stylesheet" href="css/bootstrap.min.css" />
+    <link data-trunk rel="stylesheet" href="css/styles.css" />
+    <link data-trunk rel="copy-dir" href="public" />
+    <script src="js/paro.js"></script>
+
+    <script>
+      window.__PARO__.websocketUrl = "ws://127.0.0.1:7437";
+      window.__PARO__.initialize();
+    </script>
+  </head>
+  <body id="paro-application">
+    Loading...<br/>
+    If this message does not go away, make sure port 7437 is not in use.
+  </body>
+</html>
