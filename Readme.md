@@ -6,9 +6,9 @@ Library / CLI / GUI to convert html to [maud]() template code.
 
 `cargo install html2maud-bin`
 
-`html2maud --in my.html --out my.maud`
+`html2maud-bin --in my.html --out my.maud`
 
-`cat my.html | html2maud`
+`cat my.html | html2maud-bin --stdin`
 
 ```
 Usage: html2maud [OPTIONS]
@@ -18,12 +18,12 @@ Options:
   -o, --out <output maud file>
   -s, --stdin
   -h, --help                    Print help information
+html2maud-bin without parameters will start the GUI
 ```
 
 # GUI
 
-While a gui exists, there is currently a bug where the gui does not show up when installed via `cargo install`.
-If you use `cargo run`, just pass no arguments to html2maud and a [tauri](https://tauri.app) + [pâro](https://github.com/grayfallstown/paro-rs) GUI will show up.
+run `html2maud-bin` without parameters and a basic [tauri]("https://tauri.app/) + [pâro](https://github.com/grayfallstown/paro-rs) GUI will start, allowing for a faster workflow.
 
 # Library Usage
 
