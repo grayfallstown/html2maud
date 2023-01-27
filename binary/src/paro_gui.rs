@@ -5,6 +5,8 @@
 
 use std::sync::{Arc, Mutex};
 use std::net::SocketAddr;
+use std::collections::HashMap;
+use std::str::FromStr;
 
 use tauri;
 // use tauri_plugin_websocket::TauriWebsocket;
@@ -15,15 +17,13 @@ use tungstenite::{Result, Message};
 
 use clipboard::{ClipboardProvider, ClipboardContext};
 use maud::{html};
-use rocket::response::content::*;
-use rocket::response::*;
-use std::io::Cursor;
 
 use paro_rs::{ParoApp, event};
 
 use html2maud::html2maud;
 
 use rust_embed::*;
+use tiny_http::*;
 
 #[derive(RustEmbed)]
 #[folder = "./public/"]
@@ -148,50 +148,54 @@ async fn handle_connection(paro_app: Arc<Mutex<ParoApp<ApplicationState>>>, _pee
 }
 
 
-#[rocket::get("/hello")]
-fn world() -> &'static str {
-  "Hello, world!"
+fn serve_assets(port: usize, get_file: Box<dyn Fn(&str) -> Option<EmbeddedFile> + 'static>) {
+    let server = Server::http(&format!("127.0.0.1:{}", port)).unwrap();
+    let mime_types = mime_types();
+
+    for request in server.incoming_requests() {
+        let url = request.url();
+        let path = url.trim_start_matches('/');
+        let asset = get_file(path).or(get_file("index.html"));
+        match asset {
+            Some(embedded_file) => {
+                let ext = if path.is_empty() { "html" } else { path.split(".").last().unwrap() };
+                println!("path: {}, Extension: {}", path, ext);
+                let mime = mime_types.get(ext).unwrap_or(&"application/octet-stream");
+                let response = Response::from_data(embedded_file.data)
+                    .with_header(Header::from_str(&format!("Content-Type:{}", *mime)).unwrap());
+                _ = request.respond(response);
+            },
+            None => { 
+                _ = request.respond(Response::from_string("Not Found").with_status_code(404));
+            },
+        }
+    }
 }
 
-fn asset_as_str(path: &str) -> String {
-    let embed_file = Asset::get(path)
-        .expect(&format!("{} not found in assets", path));
-    let as_string = String::from_utf8(embed_file.data.into_owned())
-        .expect(&format!("contents of {} should be UTF-8", path));
-    as_string
+fn mime_types() -> HashMap<&'static str, &'static str> {
+    let mut mime_types = HashMap::new();
+    mime_types.insert("html", "text/html");
+    mime_types.insert("htm", "text/html");
+    mime_types.insert("css", "text/css");
+    mime_types.insert("js", "application/javascript");
+    mime_types.insert("png", "image/png");
+    mime_types.insert("jpg", "image/jpeg");
+    mime_types.insert("jpeg", "image/jpeg");
+    mime_types.insert("webp", "image/webp");
+    mime_types.insert("gif", "image/gif");
+    mime_types.insert("svg", "image/svg+xml");
+    mime_types
 }
-
-#[rocket::get("/")]
-fn index() -> RawHtml<String> {
-    RawHtml(asset_as_str("index.html"))
-}
-
-#[rocket::get("/<path>")]
-fn html_asset(path: &str) -> RawHtml<String> {
-    RawHtml(asset_as_str(&path))
-}
-
-#[rocket::get("/css/<path>")]
-fn css_asset(path: &str) -> RawCss<String> {
-    let path_str = format!("{}{}", "css/", path);
-    RawCss(asset_as_str(&path_str))
-}
-
-#[rocket::get("/js/<path>")]
-fn js_asset(path: &str) -> RawJavaScript<String> {
-    let path_str = format!("{}{}", "js/", path);
-    RawJavaScript(asset_as_str(&path_str))
-}
-
 
 
 pub(crate) fn start_gui() {
     tauri::async_runtime::spawn(start_server());
     tauri::Builder::default()
         .setup(|app| {
-            tauri::async_runtime::spawn(
-                rocket::build().mount("/", rocket::routes![world, index, html_asset, css_asset, js_asset]).launch()
-            );
+            //tauri::async_runtime::spawn(|| {
+            std::thread::spawn(move || {
+                serve_assets(8080, Box::new(|path| { Asset::get(path) }));
+            });
             Ok(())
         })
         // .plugin(TauriWebsocket::default()) // this was added

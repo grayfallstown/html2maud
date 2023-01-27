@@ -2,8 +2,8 @@
   "build": {
     "beforeDevCommand": "",
     "beforeBuildCommand": "",
-    "devPath": "http://127.0.0.1:8000/",
-    "distDir": "http://127.0.0.1:8000/",
+    "devPath": "http://127.0.0.1:8080/",
+    "distDir": "http://127.0.0.1:8080/",
     "withGlobalTauri": true
   },
     "package": {
