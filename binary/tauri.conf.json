@@ -15,7 +15,7 @@
         "active": true,
         "targets": "all",
         "identifier": "com.grayfallstown.html2maud",
-        "icon": [ "icons/icon.ico" ],
+        "icon": [ "icons/icon.ico", "icons/icon.png", "icons/icon.icns" ],
         "resources": ["./public/"],
         "externalBin": [],
         "copyright": "",
