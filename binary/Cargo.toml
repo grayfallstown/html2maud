@@ -1,6 +1,6 @@
 [package]
 name = "html2maud-bin"
-version = "0.1.10"
+version = "0.1.11"
 edition = "2021"
 readme = "../Readme.md"
 repository = "https://github.com/grayfallstown/html2maud"
@@ -9,7 +9,7 @@ license = "MIT OR Apache-2.0"
 keywords = ["maud", "html", "template"]
 categories = ["command-line-utilities", "development-tools"]
 build = "src/build.rs"
-include = ["/public", "/src", "tauri.conf.json", "Cargo.toml", "/icons"]
+include = ["/icons", "/public", "/src", "tauri.conf.json", "Cargo.toml", "/icons"]
 
 [[bin]]
 name = "html2maud-bin"
