@@ -1,0 +1,56 @@
+h1 {
+  color: white;
+}
+
+.info-badge {
+  background: rgba(255,255,255,0.1);
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  padding-top: 20px;
+}
+
+textarea,
+pre {
+  width: 50%;
+  max-width: 50%;
+  height: 80%;
+  padding-left: 10px;
+  white-space: break-spaces;
+  overflow: hidden;
+}
+
+textarea {
+  resize: none;
+  background-color: #16161D;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+body {
+  align-items: center;
+}
+
+html {
+  background: linear-gradient(to bottom right, #000, #222);
+}
+
+html, body, textarea, pre {
+  font-family: 'Lucida Console', 'Courier New', monospace;
+  font-size: 12px;
+  color: #ddd;
+}
+
+main {
+  color: #fff6d5;
+  font-family: sans-serif;
+  text-align: center;
+}
