@@ -1486,6 +1486,7 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 name = "html2maud"
 version = "0.1.9"
 dependencies = [
+ "regex",
  "tl",
 ]
 
@@ -1506,7 +1507,7 @@ dependencies = [
  "clap",
  "clipboard",
  "futures-util",
- "html2maud 0.1.9 (registry+https://github.com/rust-lang/crates.io-index)",
+ "html2maud 0.1.9",
  "maud",
  "paro-rs",
  "rust-embed",

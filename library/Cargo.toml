@@ -13,3 +13,4 @@ categories = ["command-line-utilities", "development-tools"]
 
 [dependencies]
 tl = "0.7.7"
+regex = "1.10.2"

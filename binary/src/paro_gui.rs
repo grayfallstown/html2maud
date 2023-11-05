@@ -3,22 +3,22 @@
     windows_subsystem = "windows"
 )]
 
-use std::sync::{Arc, Mutex};
-use std::net::SocketAddr;
 use std::collections::HashMap;
+use std::net::SocketAddr;
 use std::str::FromStr;
+use std::sync::{Arc, Mutex};
 
 use tauri;
 // use tauri_plugin_websocket::TauriWebsocket;
-use tokio::net::{TcpListener, TcpStream};
 use futures_util::{SinkExt, StreamExt};
-use tokio_tungstenite::{accept_async};
-use tungstenite::{Result, Message};
+use tokio::net::{TcpListener, TcpStream};
+use tokio_tungstenite::accept_async;
+use tungstenite::{Message, Result};
 
-use clipboard::{ClipboardProvider, ClipboardContext};
-use maud::{html};
+use clipboard::{ClipboardContext, ClipboardProvider};
+use maud::html;
 
-use paro_rs::{ParoApp, event};
+use paro_rs::{event, ParoApp};
 
 use html2maud::html2maud;
 
@@ -29,13 +29,10 @@ use tiny_http::*;
 #[folder = "./public/"]
 struct Asset;
 
-
-
 pub struct ApplicationState {
     pub html: String,
     pub maud: String,
 }
-
 
 fn render(paro_app: &mut Arc<Mutex<ParoApp<ApplicationState>>>) -> String {
     let markup = html! {
@@ -50,14 +47,14 @@ fn render(paro_app: &mut Arc<Mutex<ParoApp<ApplicationState>>>) -> String {
                             event!(paro_app, (move |state: &mut ApplicationState, value| {
                                 println!("value: {}", value);
                                 state.html = value;
-                                state.maud = html2maud(&state.html);    
+                                state.maud = html2maud(&state.html);
                             }))
                         ) {
                             (paro_app.lock().unwrap().state.html)
                         }
                     }
                 }
-     
+
                 div.col {
                    button.btn."btn-primary" type="button" onclick=(
                         event!(paro_app, (move |state: &mut ApplicationState, _| {
@@ -80,7 +77,6 @@ fn render(paro_app: &mut Arc<Mutex<ParoApp<ApplicationState>>>) -> String {
     return html;
 }
 
-
 /**
  * Start a websocket server for pâro to connect to
  */
@@ -92,19 +88,28 @@ async fn start_server() {
     let html = r#"<h1>Welcome to html2maud</h1>
     <p>Paste or type <strong>html</strong> into the left side</p>
     <br/>
-    <p>and the <strong>maud template</strong> will be shown on the right side</p>"#.to_owned();
-    let paro_app = Arc::new(Mutex::new(ParoApp::<ApplicationState>::new(ApplicationState {
-        maud: html2maud::html2maud(&html),
-        html: html,
-    })));
+    <p>and the <strong>maud template</strong> will be shown on the right side</p>"#
+        .to_owned();
+    let paro_app = Arc::new(Mutex::new(ParoApp::<ApplicationState>::new(
+        ApplicationState {
+            maud: html2maud::html2maud(&html),
+            html: html,
+        },
+    )));
 
     while let Ok((stream, _)) = listener.accept().await {
-        let peer = stream.peer_addr().expect("connected streams should have a peer address");
+        let peer = stream
+            .peer_addr()
+            .expect("connected streams should have a peer address");
         tokio::spawn(accept_connection(paro_app.clone(), peer, stream));
     }
 }
 
-async fn accept_connection(paro_app: Arc<Mutex<ParoApp<ApplicationState>>>, peer: SocketAddr, stream: TcpStream) {
+async fn accept_connection(
+    paro_app: Arc<Mutex<ParoApp<ApplicationState>>>,
+    peer: SocketAddr,
+    stream: TcpStream,
+) {
     if let Err(e) = handle_connection(paro_app, peer, stream).await {
         match e {
             err => println!("Error processing connection: {}", err),
@@ -112,13 +117,17 @@ async fn accept_connection(paro_app: Arc<Mutex<ParoApp<ApplicationState>>>, peer
     }
 }
 
-async fn handle_connection(paro_app: Arc<Mutex<ParoApp<ApplicationState>>>, _peer: SocketAddr, stream: TcpStream) -> Result<()> {
+async fn handle_connection(
+    paro_app: Arc<Mutex<ParoApp<ApplicationState>>>,
+    _peer: SocketAddr,
+    stream: TcpStream,
+) -> Result<()> {
     let mut ws_stream = accept_async(stream).await.expect("Failed to accept");
 
-     // initial html
+    // initial html
     let rendered_html = render(&mut paro_app.clone());
     ws_stream.send(Message::Text(rendered_html)).await?;
-    
+
     // You can have an eventloop here to match pâro message input, database returns result,
     // async api calls, etc
 
@@ -131,8 +140,14 @@ async fn handle_connection(paro_app: Arc<Mutex<ParoApp<ApplicationState>>>, _pee
             } else {
                 let event_id = msg.to_text().unwrap();
                 println!("calling pâro event id '{}'", &event_id);
-                paro_app.lock().unwrap().call(event_id.to_owned())
-                    .expect(&format!("could not call paro callback for id '{}'", event_id));
+                paro_app
+                    .lock()
+                    .unwrap()
+                    .call(event_id.to_owned())
+                    .expect(&format!(
+                        "could not call paro callback for id '{}'",
+                        event_id
+                    ));
 
                 // clean up old callbacks to free memory
                 paro_app.lock().unwrap().iterate();
@@ -147,7 +162,6 @@ async fn handle_connection(paro_app: Arc<Mutex<ParoApp<ApplicationState>>>, _pee
     Ok(())
 }
 
-
 fn serve_assets(port: usize, get_file: Box<dyn Fn(&str) -> Option<EmbeddedFile> + 'static>) {
     let server = Server::http(&format!("127.0.0.1:{}", port)).unwrap();
     let mime_types = mime_types();
@@ -158,16 +172,20 @@ fn serve_assets(port: usize, get_file: Box<dyn Fn(&str) -> Option<EmbeddedFile> 
         let asset = get_file(path).or(get_file("index.html"));
         match asset {
             Some(embedded_file) => {
-                let ext = if path.is_empty() { "html" } else { path.split(".").last().unwrap() };
+                let ext = if path.is_empty() {
+                    "html"
+                } else {
+                    path.split(".").last().unwrap()
+                };
                 println!("path: {}, Extension: {}", path, ext);
                 let mime = mime_types.get(ext).unwrap_or(&"application/octet-stream");
                 let response = Response::from_data(embedded_file.data)
                     .with_header(Header::from_str(&format!("Content-Type:{}", *mime)).unwrap());
                 _ = request.respond(response);
-            },
-            None => { 
+            }
+            None => {
                 _ = request.respond(Response::from_string("Not Found").with_status_code(404));
-            },
+            }
         }
     }
 }
@@ -187,18 +205,17 @@ fn mime_types() -> HashMap<&'static str, &'static str> {
     mime_types
 }
 
-
 pub(crate) fn start_gui() {
     tauri::async_runtime::spawn(start_server());
     tauri::Builder::default()
         .setup(|app| {
             //tauri::async_runtime::spawn(|| {
             std::thread::spawn(move || {
-                serve_assets(8080, Box::new(|path| { Asset::get(path) }));
+                serve_assets(8087, Box::new(|path| Asset::get(path)));
             });
             Ok(())
         })
         // .plugin(TauriWebsocket::default()) // this was added
         .run(tauri::generate_context!())
-    .expect("error while running tauri application");
+        .expect("error while running tauri application");
 }
