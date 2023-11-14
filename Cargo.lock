@@ -1485,17 +1485,17 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 [[package]]
 name = "html2maud"
 version = "0.1.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c3448331823d282e626c4c5c7893d065b49d469c9d1196ef48b03ec720901077"
 dependencies = [
- "regex",
  "tl",
 ]
 
 [[package]]
 name = "html2maud"
-version = "0.1.9"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c3448331823d282e626c4c5c7893d065b49d469c9d1196ef48b03ec720901077"
+version = "0.1.10"
 dependencies = [
+ "regex",
  "tl",
 ]
 
@@ -1507,7 +1507,7 @@ dependencies = [
  "clap",
  "clipboard",
  "futures-util",
- "html2maud 0.1.9",
+ "html2maud 0.1.10",
  "maud",
  "paro-rs",
  "rust-embed",
@@ -3722,7 +3722,7 @@ dependencies = [
 name = "trunk-template"
 version = "0.1.0"
 dependencies = [
- "html2maud 0.1.9 (registry+https://github.com/rust-lang/crates.io-index)",
+ "html2maud 0.1.9",
  "wasm-bindgen",
  "web-sys",
  "yew",
