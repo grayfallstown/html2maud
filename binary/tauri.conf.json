@@ -2,49 +2,48 @@
   "build": {
     "beforeDevCommand": "",
     "beforeBuildCommand": "",
-    "devPath": "http://127.0.0.1:8080/",
-    "distDir": "http://127.0.0.1:8080/",
+    "devPath": "http://127.0.0.1:8087/",
+    "distDir": "http://127.0.0.1:8087/",
     "withGlobalTauri": true
   },
-    "package": {
-      "productName": "html2maud-bin",
-      "version": "0.1.6"
-    },
-    "tauri": {
-      "bundle": {
-        "active": true,
-        "targets": "all",
-        "identifier": "com.grayfallstown.html2maud",
-        "icon": [ "icons/icon.ico", "icons/icon.png", "icons/icon.icns" ],
-        "resources": ["./public/"],
-        "externalBin": [],
-        "copyright": "",
-        "category": "DeveloperTool",
-        "shortDescription": "",
-        "longDescription": "",
-        "deb": {
-          "depends": []
-        },
-        "macOS": {
-          "frameworks": [],
-          "exceptionDomain": ""
-        }
+  "package": {
+    "productName": "html2maud-bin",
+    "version": "0.1.9"
+  },
+  "tauri": {
+    "bundle": {
+      "active": true,
+      "targets": "all",
+      "identifier": "com.grayfallstown.html2maud",
+      "icon": ["icons/icon.ico", "icons/icon.png", "icons/icon.icns"],
+      "resources": ["./public/"],
+      "externalBin": [],
+      "copyright": "",
+      "category": "DeveloperTool",
+      "shortDescription": "",
+      "longDescription": "",
+      "deb": {
+        "depends": []
       },
-      "allowlist": {
-        "all": false
-      },
-      "windows": [
-        {
-          "title": "html2maud pâro GUI",
-          "width": 800,
-          "height": 600,
-          "resizable": true,
-          "fullscreen": false
-        }
-      ],
-      "security": {
-        "csp": null
+      "macOS": {
+        "frameworks": [],
+        "exceptionDomain": ""
       }
+    },
+    "allowlist": {
+      "all": false
+    },
+    "windows": [
+      {
+        "title": "html2maud pâro GUI",
+        "width": 800,
+        "height": 600,
+        "resizable": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": null
     }
   }
-  
+}
