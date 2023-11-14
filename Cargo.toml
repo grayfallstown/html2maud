@@ -1,3 +1,4 @@
 [workspace]
 members = ["library", "binary", "yew"]
 default-members = ["binary", "yew"]
+resolver = "2"
