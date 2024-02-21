@@ -62,7 +62,8 @@ pub fn html2maud(html: &str) -> String {
         let tag_name = tag.name().as_utf8_str();
 
         let use_semicolon = match tag_name.as_ref().to_string().as_str() {
-            "meta" | "link" | "br" | "img" => true,
+            "meta" | "link" | "br" | "img" | "input" | "hr" | "col" | "area" | "base" | "wbr"
+            | "track" | "param" => true,
             _ => false,
         };
 
