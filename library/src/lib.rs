@@ -60,6 +60,13 @@ pub fn html2maud(html: &str) -> String {
 
     fn handle_tag(tag: &HTMLTag, parser: &Parser, maud_template: &mut String, indent: usize) {
         let tag_name = tag.name().as_utf8_str();
+
+        let use_semicolon = match tag_name.as_ref().to_string().as_str() {
+            "meta" | "link" | "br" | "img" | "input" | "hr" | "col" | "area" | "base" | "wbr"
+            | "track" | "param" => true,
+            _ => false,
+        };
+
         write!(maud_template, "{}{}", spaces(indent), &tag_name).unwrap();
 
         match tag.attributes().class_iter() {
@@ -105,7 +112,12 @@ pub fn html2maud(html: &str) -> String {
             }
         }
 
-        write!(maud_template, " {{\n").unwrap();
+        if !use_semicolon {
+            write!(maud_template, " {{\n").unwrap();
+        } else {
+            write!(maud_template, ";\n").unwrap();
+        }
+
         let children = tag.children();
         let nodes = children.top().as_slice();
         let mut first_node = true;
@@ -117,7 +129,10 @@ pub fn html2maud(html: &str) -> String {
             }
             handle_node(child_node.get(parser), parser, maud_template, indent + 1);
         }
-        write!(maud_template, "{}}}\n", spaces(indent)).unwrap();
+
+        if !use_semicolon {
+            write!(maud_template, "{}}}\n", spaces(indent)).unwrap();
+        }
     }
 
     fn handle_node(
